@@ -5,113 +5,90 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import DetailScreen from './src/screens/DetailScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const HomeStack = createNativeStackNavigator();
+const DetailStack = createNativeStackNavigator();
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const HomeStackScreen = ({navigation}) => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <HomeStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <HomeStack.Screen
+        name="Homee"
+        component={HomeScreen}
+        options={{
+          headerLeft: () => (
+            <Icon.Button
+              name="menu"   
+              size={20}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}></Icon.Button>
+          ),
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    </HomeStack.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const DetailStackScreen = ({navigation}) => {
+  return (
+    <DetailStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <DetailStack.Screen name="Detailss" component={DetailScreen} />
+    </DetailStack.Navigator>
+  );
+};
+const Drawer = createDrawerNavigator();
+
+const App = () => {
+  return (
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        {/* <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#009387',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailScreen} />
+      </Stack.Navigator> */}
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeStackScreen} />
+          <Drawer.Screen name="Details" component={DetailStackScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
+  );
+};
 
 export default App;
