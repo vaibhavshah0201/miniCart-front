@@ -14,6 +14,7 @@ import DetailScreen from './src/screens/DetailScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import CanvasScreen from './src/screens/Canvas';
 
 const HomeStack = createNativeStackNavigator();
 const DetailStack = createNativeStackNavigator();
@@ -85,6 +86,7 @@ const App = () => {
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen name="Home" component={HomeStackScreen} />
           <Drawer.Screen name="Details" component={DetailStackScreen} />
+          <Drawer.Screen name="Canvas" component={CanvasScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

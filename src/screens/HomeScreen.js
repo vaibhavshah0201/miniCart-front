@@ -9,6 +9,10 @@ const HomeScreen = ({navigation}) => {
         title="Go to details screen"
         onPress={() => navigation.navigate('Details')}
       />
+      <Button
+        title="Open canvas"
+        onPress={() => navigation.navigate('Canvas')}
+      />
     </View>
   );
 };
